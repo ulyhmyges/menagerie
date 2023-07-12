@@ -29,7 +29,6 @@ temp/
 
 *.env
 
-prod.env
-prod.flavien.env
-prod.mp.env
-local.env
+.env.prod
+.env.prod.flavien
+.env.prod.mp

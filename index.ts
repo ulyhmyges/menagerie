@@ -1,6 +1,6 @@
 import {config} from "dotenv";
 config({
-    path: "prod.env"
+    path: ".env.prod"
 });
 
 import * as express from 'express';
