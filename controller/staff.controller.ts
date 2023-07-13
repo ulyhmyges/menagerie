@@ -10,7 +10,7 @@ export class StaffController implements ExpressController {
     readonly _staffService: StaffService;
 
     constructor() {
-        this._path = '/staff';
+        this._path = '/staffs';
         this._staffService = new StaffService();
     }
 

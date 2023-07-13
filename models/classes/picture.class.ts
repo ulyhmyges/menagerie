@@ -1,4 +1,4 @@
-export class Picture {
+export class PictureClass {
     private _title: string;
     private _name: string;
     private _src: string;

@@ -1,5 +1,4 @@
 import {Availability, Day, Week} from "../interfaces";
-import {Expression} from "mongoose";
 
 export class WeekClass implements Week {
     public index: number;
@@ -25,8 +24,9 @@ export class WeekClass implements Week {
         this.sunday = day ?? this.dayoff;
     }
 
+
 }
-export class Period implements Availability {
+export class YearOff implements Availability {
     public available: boolean;
     public weeks: Week[] = [];
 

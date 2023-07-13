@@ -1,16 +1,16 @@
 import {Availability, EmployeeType, Staff} from "../interfaces";
 
 
-export class Employee implements Staff {
+export class Veterinary implements Staff {
 
     private _name: string;
     private _availability: Availability;
     private _type: EmployeeType;
 
 
-    constructor(name: string, type: EmployeeType, availability: Availability) {
+    constructor(name: string, availability: Availability) {
         this._name = name;
-        this._type = type;
+        this._type = EmployeeType.veterinary;
         this._availability = availability;
     }
 

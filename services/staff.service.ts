@@ -50,7 +50,6 @@ export class StaffService {
 
     async findStaffs(filter: object): Promise<Staff[] | null>{
         try {
-            console.log("there findstaffs..")
             return await this.staffModel.find(filter).exec();
         } catch (e: unknown) {
             console.log(e + "error find")
@@ -59,35 +58,3 @@ export class StaffService {
     }
 
 }
-// export class CocktailService {
-//
-//
-//
-//
-//     async findCocktail(cocktail: Cocktail): Promise<Cocktail | null> {
-//         return await this.cocktailModel.findOne({
-//             name: cocktail.name
-//         }).exec();
-//     }
-//
-//     async findCocktailsByName(cocktail: Cocktail): Promise<Array<HydratedDocument<Cocktail, {}, {}>>> {
-//         return await this.cocktailModel.find( {
-//             name: cocktail.name
-//         }).exec();
-//     }
-//
-//     async updateCocktail(name: string, cocktail: Cocktail): Promise<void> {
-//         await this.cocktailModel.findOneAndUpdate({name: name}, {
-//             name: cocktail.name,
-//             price: cocktail.price,
-//             alcohol: cocktail.alcohol,
-//             ingredients: cocktail.ingredients,
-//             description: cocktail.description
-//         });
-//     }
-//
-//     async deleteCocktail(cocktail: Cocktail): Promise<void> {
-//         await this.cocktailModel.findOneAndUpdate({name: cocktail.name});
-//     }
-//
-// }
