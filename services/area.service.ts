@@ -1,6 +1,5 @@
 import {Model} from "mongoose";
-import {AreaModel} from "../models";
-import {Area} from "../models";
+import {Area, AreaModel} from "../models";
 export class AreaService {
     readonly areaModel: Model<Area>;
 

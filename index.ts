@@ -6,6 +6,8 @@ config({
 import * as express from 'express';
 import mongoose, {connect, Schema} from 'mongoose';
 import {AreaController, ExpressController, StaffController} from "./controller";
+import {AnimalClass} from "./models/classes/animal.class";
+import {AnimalController} from "./controller/animal.controller";
 
 async function launchAPI(): Promise<void> {
     await connect(process.env.MONGO_URI as string, {
@@ -20,6 +22,7 @@ async function launchAPI(): Promise<void> {
     const controllers: ExpressController[] = [
         new StaffController(),
         new AreaController(),
+        new AnimalController(),
     ]
     for (let controller of controllers) {
         const router = controller.buildRoutes();

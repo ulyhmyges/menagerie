@@ -9,21 +9,19 @@ export enum Wellbeing {
     dead = "Dead"
 }
 export interface CareBook {
-    _id: string;
+    _id?: string;
     owner: Animal;
     start: Date;
-    end: Date;
-    place: string;
     health: Wellbeing;
     appointment: Date;
     treatments: Treatment[]
 }
 
 export interface Treatment {
-    _id: string;
+    _id?: string;
     animal: Animal;
     date: Date;
     place: string;
     description: string;
-    veterinary: Veterinary;
+    veterinary: Veterinary | null;
 }

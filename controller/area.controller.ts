@@ -1,9 +1,9 @@
 import * as express from "express";
 import {Request, Response} from "express";
 import {ExpressController} from "./controller.interface";
-import {AreaService} from "../services/area.service";
+import {AreaService} from "../services";
 import {Area, AreaType} from "../models";
-import {AreaClass} from "../models/classes/area.class";
+import {AreaClass} from "../models";
 
 
 export class AreaController implements ExpressController {

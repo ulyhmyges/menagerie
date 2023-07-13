@@ -1,4 +1,5 @@
-import {Availability, EmployeeType, Staff} from "../interfaces";
+import {Availability, EmployeeType, Staff, Week} from "../interfaces";
+import {WeekClass, YearFull} from "./availability.class";
 
 
 export class Veterinary implements Staff {
@@ -8,10 +9,10 @@ export class Veterinary implements Staff {
     private _type: EmployeeType;
 
 
-    constructor(name: string, availability: Availability) {
+    constructor(name: string, beginHour: number, endHour: number) {
         this._name = name;
         this._type = EmployeeType.veterinary;
-        this._availability = availability;
+        this._availability = new YearFull(beginHour, endHour);
     }
 
     get name(): string {
@@ -37,9 +38,4 @@ export class Veterinary implements Staff {
     set type(value: EmployeeType) {
         this._type = value;
     }
-
-
-
-
-
 }
