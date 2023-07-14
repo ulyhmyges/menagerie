@@ -1,6 +1,6 @@
 import mongoose, {Model, Schema} from "mongoose";
 import {Staff} from "./interfaces";
-import {YearOff} from "./classes";
+import {YearFull, YearOff} from "./classes";
 
 
 const staffSchema = new Schema<Staff>({

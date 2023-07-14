@@ -2,7 +2,7 @@ import * as express from "express";
 import {Request, Response} from "express";
 import {ExpressController} from "./controller.interface";
 import {StaffService} from "../services";
-import {Day, EmployeeType, Staff, Week} from "../models";
+import {Animal, AnimalClass, Day, EmployeeType, Gender, Staff, Week, YearFull} from "../models";
 
 
 export class StaffController implements ExpressController {
@@ -61,10 +61,27 @@ export class StaffController implements ExpressController {
     }
 
 
-    async create(req: Request, res: Response): Promise<void> {
+    async createDefault(req: Request, res: Response): Promise<void> {
         const day : Day = {available: true, time: {begin: 7, end: 14}};
         const week1: Week = {available: true, index: 1, monday: day, tuesday: day, wednesday: day, thursday: day, friday: day}
         let staff: Staff | null = {name: "toto", type: EmployeeType.salesman, availability: {available: true, weeks: [week1]}}
+        staff = await this._staffService.createStaff(staff);
+        res.json(staff);
+    }
+
+    async create(req: Request, res: Response): Promise<void> {
+        const begin = req.body.begin;
+        const end = req.body.end;
+        let availability = req.body.availability;
+
+        if (!availability && begin && end) {
+            availability = new YearFull(begin, end);
+        }
+        let staff : Staff | null = {
+            name: req.body.name,
+            type: req.body.type,
+            availability: availability
+        }
         staff = await this._staffService.createStaff(staff);
         res.json(staff);
     }
@@ -82,7 +99,8 @@ export class StaffController implements ExpressController {
         router.delete('/id/:value/delete', this.deleteStaffById.bind(this));
         router.put('/id/:value/update', express.json(), this.updateStaffById.bind(this));
 
-        router.post('/create', this.create.bind(this));
+        router.post('/create', express.json(), this.create.bind(this));
+        router.post('/create/default', this.createDefault.bind(this));
         return router;
     }
 

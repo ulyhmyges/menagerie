@@ -1,6 +1,6 @@
 export interface Day {
     available: boolean,
-    time: {begin: number, end: number} | undefined
+    time: {begin: number | null, end: number | null}
 }
 
 export interface Week {

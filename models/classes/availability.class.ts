@@ -65,10 +65,10 @@ export class YearFull implements Availability {
 
 export class DayClass implements Day {
     public available: boolean;
-    public time: { begin: number ; end: number } | undefined;
+    public time: { begin: number | null; end: number | null } ;
 
     constructor(available: boolean, begin?: number, end?: number) {
         this.available = available;
-        this.time = ( begin && end ) ? {begin: begin, end: end} : undefined
+        this.time = ( begin && end ) ? {begin: begin, end: end} : {begin: null, end: null}
     }
 }

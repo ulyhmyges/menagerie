@@ -60,6 +60,6 @@ export class OpeningHours implements Week {
         this.thursday = {available: available, time: {begin: start, end: stop}}
         this.friday = {available: available, time: {begin: start, end: stop}}
         this.saturday = {available: available, time: {begin: start, end: stop}}
-        this.sunday = {available: false, time: undefined}
+        this.sunday = {available: false, time: {begin: null, end: null}}
     }
 }
