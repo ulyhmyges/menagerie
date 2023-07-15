@@ -8,6 +8,7 @@ import mongoose, {connect, Schema} from 'mongoose';
 import {AreaController, ExpressController, StaffController} from "./controller";
 import {AnimalClass} from "./models/classes/animal.class";
 import {AnimalController} from "./controller/animal.controller";
+import {TicketController} from "./controller/ticket.controller";
 
 async function launchAPI(): Promise<void> {
     await connect(process.env.MONGO_URI as string, {
@@ -23,6 +24,7 @@ async function launchAPI(): Promise<void> {
         new StaffController(),
         new AreaController(),
         new AnimalController(),
+        new TicketController(),
     ]
     for (let controller of controllers) {
         const router = controller.buildRoutes();

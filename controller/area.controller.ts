@@ -1,23 +1,25 @@
 import * as express from "express";
 import {Request, Response} from "express";
 import {ExpressController} from "./controller.interface";
-import {AreaService} from "../services";
 import {Area, AreaType} from "../models";
-import {AreaClass} from "../models";
-
+import {TicketService} from "../services/ticket.service";
+import {AreaService} from "../services";
+import {TicketType} from "../models/interfaces/ticket.interface"; // include TicketType from correct module
+import {AreaClass} from "../models/classes/area.class";
 
 export class AreaController implements ExpressController {
     readonly _path: string;
     readonly _areaService: AreaService;
+    readonly _ticketService: TicketService; // new ticket service
 
     constructor() {
         this._path = '/areas';
         this._areaService = new AreaService();
+        this._ticketService = new TicketService(); // initialize the ticket service
     }
 
     async getAll(req: Request, res: Response){
         const areas = await this._areaService.findAreas({});
-        //res.send(staffs);
         res.json(areas);
     }
 
@@ -30,6 +32,7 @@ export class AreaController implements ExpressController {
         const area = await this._areaService.findArea({name: req.params.value})
         res.json(area);
     }
+
     async updateAreaByName(req: Request, res: Response) {
         const update : Area | null = {
             name: req.body.name,
@@ -77,9 +80,7 @@ export class AreaController implements ExpressController {
         res.json(area);
     }
 
-
     async createDefault(req: Request, res: Response): Promise<void> {
-
         let area: Area | null = new AreaClass("Flamingo pond", true, 9, 20, 2000, AreaType.woodedSpace);
         area = await this._areaService.createArea(area);
         res.json(area);
@@ -101,6 +102,49 @@ export class AreaController implements ExpressController {
         res.json(area);
     }
 
+    // ...previous code...
+
+async enterArea(req: Request, res: Response): Promise<void> {
+    const {areaId, ticketId} = req.body;
+
+    const area = await this._areaService.findArea({_id: areaId});
+    const ticket = await this._ticketService.getTicket(ticketId); // change to getTicket
+
+    if (!area || !ticket) {
+        res.status(404).send("Area or Ticket not found");
+        return;
+    }
+
+    const hasAccess = ticket.type.includes(area.type);
+
+    if (ticket.type === TicketType.EscapeGame) {
+        if (ticket.accessOrder && ticket.lastVisitedArea) {
+            const previousAreaIndex = ticket.accessOrder.indexOf(ticket.lastVisitedArea);
+            const currentAreaIndex = ticket.accessOrder.indexOf(areaId);
+
+            if (previousAreaIndex + 1 !== currentAreaIndex) {
+                res.status(403).send("Area access order not respected");
+                return;
+            }
+        } else {
+            res.status(403).send("Ticket data for Escape Game is incomplete");
+            return;
+        }
+    }
+
+    if (!hasAccess) {
+        res.status(403).send("Area not included in ticket");
+        return;
+    }
+
+    // update the ticket's last visited area
+    this._ticketService.updateTicket(ticketId, {lastVisitedArea: areaId}); // pass ticketId as a string
+
+    res.status(200).send("Access granted");
+}
+
+// ...previous code...
+
     buildRoutes(): express.Router {
         const router = express.Router();
         router.get('/', this.getAll.bind(this));
@@ -117,8 +161,8 @@ export class AreaController implements ExpressController {
         router.post('/create/default', this.createDefault.bind(this));
         router.post('/create', express.json(), this.create.bind(this));
 
+        router.post('/enter', express.json(), this.enterArea.bind(this)); // add this new route
+
         return router;
     }
-
-
 }
