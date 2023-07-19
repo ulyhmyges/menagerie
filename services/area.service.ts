@@ -7,7 +7,7 @@ export class AreaService {
         this.areaModel = AreaModel;
     }
 
-    async createArea(area: Area): Promise<Area | null> {
+    async create(area: Area): Promise<Area | null> {
         try {
             return await this.areaModel.create({
                 name: area.name,
@@ -25,7 +25,7 @@ export class AreaService {
         }
     }
 
-    async updateArea(filter: object, update: object): Promise<Area | null> {
+    async update(filter: object, update: object): Promise<Area | null> {
         try {
             return await this.areaModel.findOneAndUpdate(filter, update);
         } catch (e: unknown) {
@@ -34,7 +34,7 @@ export class AreaService {
         }
     }
 
-    async deleteArea(conditions: object): Promise<Area | null> {
+    async delete(conditions: object): Promise<Area | null> {
         try {
             return await this.areaModel.findOneAndDelete(conditions);
         } catch (e: unknown) {
@@ -43,7 +43,7 @@ export class AreaService {
         }
     }
 
-    async findArea(filter: object): Promise<Area | null> {
+    async findOne(filter: object): Promise<Area | null> {
         try {
             console.log(filter)
             return await this.areaModel.findOne(filter);
@@ -53,7 +53,7 @@ export class AreaService {
         }
     }
 
-    async findAreas(filter: object): Promise<Area[] | null>{
+    async find(filter: object): Promise<Area[] | null>{
         try {
             return await this.areaModel.find(filter).exec();
         } catch (e: unknown) {

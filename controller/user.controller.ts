@@ -14,7 +14,7 @@ export class UserController implements ExpressController {
     }
 
     async subscribe(req: Request, res: Response) {
-        const user = await this._authService.createUser({
+        const user = await this._authService.create({
             login: req.body.login,
             password: req.body.password,
             type: req.body.type
@@ -28,13 +28,13 @@ export class UserController implements ExpressController {
             password: req.body.password,
             type: req.body.type
         }
-        const user = await this._authService.updateUser({_id: req.params.id}, update);
-        const updateUser = await this._authService.findUser({_id: req.params.id});
+        const user = await this._authService.update({_id: req.params.id}, update);
+        const updateUser = await this._authService.findOne({_id: req.params.id});
         res.json(updateUser);
     }
 
     async getAll(req: Request, res: Response) {
-        const users = await this._authService.findUsers({});
+        const users = await this._authService.find({});
         res.json(users);
     }
     buildRoutes(): express.Router {

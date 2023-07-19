@@ -15,17 +15,17 @@ export class AnimalController implements ExpressController {
     }
 
     async getAll(req: Request, res: Response) {
-        const animals = await this._animalService.findAnimals({});
+        const animals = await this._animalService.find({});
         res.json(animals);
     }
 
     async getAnimalsByName(req: Request, res: Response) {
-        const animals = await this._animalService.findAnimals({name: req.params.value});
+        const animals = await this._animalService.find({name: req.params.name});
         res.json(animals);
     }
 
     async getAnimalByName(req: Request, res: Response) {
-        const animals = await this._animalService.findAnimal({name: req.params.value});
+        const animals = await this._animalService.findOne({name: req.query.name});
         res.json(animals);
     }
 
@@ -38,18 +38,18 @@ export class AnimalController implements ExpressController {
             scientificName: req.body.scientificName,
             carebook: req.body.carebook
         }
-        const animal = await this._animalService.updateAnimal({name: req.params.value}, update);
-        const updateAnimal = await this._animalService.findAnimal({name: req.body.name});
+        const animal = await this._animalService.update({name: req.query.name}, update);
+        const updateAnimal = await this._animalService.findOne({name: req.body.name});
         res.json(updateAnimal); // return updated object
     }
 
     async deleteAnimalByName(req: Request, res: Response) {
-        const animal = await this._animalService.deleteAnimal({name: req.params.value});
+        const animal = await this._animalService.delete({name: req.query.name});
         res.json(animal);
     }
 
     async getAnimalById(req: Request, res: Response) {
-        const animal = await this._animalService.findAnimal({_id: req.params.value})
+        const animal = await this._animalService.findOne({_id: req.params.id})
         res.json(animal);
     }
 
@@ -62,13 +62,13 @@ export class AnimalController implements ExpressController {
             scientificName: req.body.scientificName,
             carebook: req.body.carebook
         }
-        const animal = await this._animalService.updateAnimal({_id: req.params.value}, update);
-        const updateAnimal = await this._animalService.findAnimal({_id: req.params.value});
+        const animal = await this._animalService.update({_id: req.params.id}, update);
+        const updateAnimal = await this._animalService.findOne({_id: req.params.id});
         res.json(updateAnimal);
     }
 
     async deleteAnimalById(req: Request, res: Response) {
-        const animal = await this._animalService.deleteAnimal({_id: req.params.value});
+        const animal = await this._animalService.delete({_id: req.params.id});
         res.json(animal);
     }
 
@@ -76,7 +76,7 @@ export class AnimalController implements ExpressController {
     async createDefault(req: Request, res: Response): Promise<void> {
 
         let animal: Animal | null = new AnimalClass("Simba", new Date(1998, 5, 13), Gender.male);
-        animal = await this._animalService.createAnimal(animal);
+        animal = await this._animalService.create(animal);
         res.json(animal);
     }
 
@@ -89,22 +89,22 @@ export class AnimalController implements ExpressController {
             req.body.scientificName,
             req.body.carebook
         )
-        animal = await this._animalService.createAnimal(animal);
+        animal = await this._animalService.create(animal);
         res.json(animal);
     }
 
     buildRoutes(): express.Router {
         const router = express.Router();
         router.get('/', this.getAll.bind(this));
-        router.get('/:value', this.getAnimalsByName.bind(this));
+        router.get('/:name', this.getAnimalsByName.bind(this));
 
-        router.get('/name/:value', this.getAnimalByName.bind(this));
-        router.delete('/name/:value/delete', this.deleteAnimalByName.bind(this));
-        router.put('/name/:value/update', express.json(), this.updateAnimalByName.bind(this));
+        router.get('/animal', this.getAnimalByName.bind(this));
+        router.delete('/animal/delete', this.deleteAnimalByName.bind(this));
+        router.put('/animal/update', express.json(), this.updateAnimalByName.bind(this));
 
-        router.get('/id/:value', this.getAnimalById.bind(this));
-        router.delete('/id/:value/delete', this.deleteAnimalById.bind(this));
-        router.put('/id/:value/update', express.json(), this.updateAnimalById.bind(this));
+        router.get('/animal/:id', this.getAnimalById.bind(this));
+        router.delete('/animal/delete/:id', this.deleteAnimalById.bind(this));
+        router.put('/animal/update/:id', express.json(), this.updateAnimalById.bind(this));
 
         router.post('/create/default', this.createDefault.bind(this));
         router.post('/create', express.json(), this.create.bind(this));

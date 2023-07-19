@@ -7,7 +7,7 @@ export class AnimalService {
         this.animalModel = AnimalModel;
     }
 
-    async createAnimal(animal: Animal): Promise<Animal | null> {
+    async create(animal: Animal): Promise<Animal | null> {
         try {
             return await this.animalModel.create({
                 name: animal.name,
@@ -23,7 +23,7 @@ export class AnimalService {
         }
     }
 
-    async updateAnimal(filter: object, update: object): Promise<Animal | null> {
+    async update(filter: object, update: object): Promise<Animal | null> {
         try {
             return await this.animalModel.findOneAndUpdate(filter, update);
         } catch (e: unknown) {
@@ -32,7 +32,7 @@ export class AnimalService {
         }
     }
 
-    async deleteAnimal(conditions: object): Promise<Animal | null> {
+    async delete(conditions: object): Promise<Animal | null> {
         try {
             return await this.animalModel.findOneAndDelete(conditions);
         } catch (e: unknown) {
@@ -41,7 +41,7 @@ export class AnimalService {
         }
     }
 
-    async findAnimal(filter: object): Promise<Animal | null> {
+    async findOne(filter: object): Promise<Animal | null> {
         try {
             console.log(filter)
             return await this.animalModel.findOne(filter);
@@ -51,7 +51,7 @@ export class AnimalService {
         }
     }
 
-    async findAnimals(filter: object): Promise<Animal[] | null>{
+    async find(filter: object): Promise<Animal[] | null>{
         try {
             return await this.animalModel.find(filter).exec();
         } catch (e: unknown) {

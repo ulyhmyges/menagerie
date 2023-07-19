@@ -7,7 +7,7 @@ export class StaffService {
         this.staffModel = StaffModel;
     }
 
-    async createStaff(staff: Staff): Promise<Staff | null> {
+    async create(staff: Staff): Promise<Staff | null> {
         try {
             return await this.staffModel.create({
                 name: staff.name,
@@ -20,7 +20,7 @@ export class StaffService {
         }
     }
 
-    async updateStaff(filter: object, update: object): Promise<Staff | null> {
+    async update(filter: object, update: object): Promise<Staff | null> {
         try {
             return await this.staffModel.findOneAndUpdate(filter, update);
         } catch (e: unknown) {
@@ -29,7 +29,7 @@ export class StaffService {
         }
     }
 
-    async deleteStaff(conditions: object): Promise<Staff | null> {
+    async delete(conditions: object): Promise<Staff | null> {
         try {
             return await this.staffModel.findOneAndDelete(conditions);
         } catch (e: unknown) {
@@ -38,7 +38,7 @@ export class StaffService {
         }
     }
 
-    async findStaff(filter: object): Promise<Staff | null> {
+    async findOne(filter: object): Promise<Staff | null> {
         try {
             console.log(filter)
             return await this.staffModel.findOne(filter);
@@ -48,7 +48,7 @@ export class StaffService {
         }
     }
 
-    async findStaffs(filter: object): Promise<Staff[] | null>{
+    async find(filter: object): Promise<Staff[] | null>{
         try {
             return await this.staffModel.find(filter).exec();
         } catch (e: unknown) {

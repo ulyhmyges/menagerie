@@ -8,7 +8,7 @@ export class AuthService {
         this.userModel = UserModel;
     }
 
-    async createUser(user: User): Promise<User | null> {
+    async create(user: User): Promise<User | null> {
         try {
             return await this.userModel.create(user)
         } catch (e: unknown) {
@@ -17,7 +17,7 @@ export class AuthService {
         }
     }
 
-    async updateUser(filter: object, user: User): Promise<User | null> {
+    async update(filter: object, user: User): Promise<User | null> {
         try {
             return await this.userModel.findOneAndUpdate(filter, {
                 login: user.login,
@@ -29,7 +29,7 @@ export class AuthService {
         }
     }
 
-    async findUser(filter: object): Promise<User | null> {
+    async findOne(filter: object): Promise<User | null> {
         try {
             return await this.userModel.findOne(filter);
         } catch (e: unknown) {
@@ -37,7 +37,7 @@ export class AuthService {
         }
     }
 
-    async findUsers(filter: object): Promise<User[] | null> {
+    async find(filter: object): Promise<User[] | null> {
         try {
             return await this.userModel.find(filter).exec();
         } catch (e: unknown) {

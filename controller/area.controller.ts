@@ -16,18 +16,18 @@ export class AreaController implements ExpressController {
     }
 
     async getAll(req: Request, res: Response){
-        const areas = await this._areaService.findAreas({});
+        const areas = await this._areaService.find({});
         //res.send(staffs);
         res.json(areas);
     }
 
     async getAreasByName(req: Request, res: Response) {
-        const areas = await this._areaService.findAreas({name: req.params.value});
+        const areas = await this._areaService.find({name: req.params.name});
         res.json(areas);
     }
 
     async getAreaByName(req: Request, res: Response) {
-        const area = await this._areaService.findArea({name: req.params.value})
+        const area = await this._areaService.findOne({name: req.query.name})
         res.json(area);
     }
     async updateAreaByName(req: Request, res: Response) {
@@ -41,18 +41,18 @@ export class AreaController implements ExpressController {
             disabledAccess: req.body.disabledAccess,
             pictures: req.body.pictures
         }
-        const area = await this._areaService.updateArea( {name: req.params.value}, update);
-        const updateArea = await this._areaService.findArea({name: req.body.name});
+        const area = await this._areaService.update( {name: req.query.name}, update);
+        const updateArea = await this._areaService.find({name: req.body.name});
         res.json(updateArea); // return updated object
     }
 
     async deleteAreaByName(req: Request, res: Response) {
-        const area = await this._areaService.deleteArea({name: req.params.value});
+        const area = await this._areaService.delete({name: req.query.name});
         res.json(area);
     }
 
     async getAreaById(req: Request, res: Response) {
-        const area = await this._areaService.findArea({_id: req.params.value})
+        const area = await this._areaService.findOne({_id: req.params.id})
         res.json(area);
     }
 
@@ -67,13 +67,13 @@ export class AreaController implements ExpressController {
             disabledAccess: req.body.disabledAccess,
             pictures: req.body.pictures
         }
-        const area = await this._areaService.updateArea( {_id: req.params.value}, update);
-        const updateArea = await this._areaService.findArea({_id: req.params.value});
+        const area = await this._areaService.update( {_id: req.params.id}, update);
+        const updateArea = await this._areaService.findOne({_id: req.params.id});
         res.json(updateArea);
     }
 
     async deleteAreaById(req: Request, res: Response) {
-        const area = await this._areaService.deleteArea({_id: req.params.value});
+        const area = await this._areaService.delete({_id: req.params.id});
         res.json(area);
     }
 
@@ -81,11 +81,11 @@ export class AreaController implements ExpressController {
     async createDefault(req: Request, res: Response): Promise<void> {
 
         let area: Area | null = new AreaClass("Flamingo pond", true, 9, 20, 2000, AreaType.woodedSpace);
-        area = await this._areaService.createArea(area);
+        area = await this._areaService.create(area);
         res.json(area);
     }
 
-    async create(req: Request, res: Response): Promise<void> {
+    async createArea(req: Request, res: Response): Promise<void> {
         let area: Area | null = new AreaClass(
             req.body.name,
             req.body.available,
@@ -97,25 +97,25 @@ export class AreaController implements ExpressController {
             req.body.disabledAccess,
             req.body.pictures
         )
-        area = await this._areaService.createArea(area);
+        area = await this._areaService.create(area);
         res.json(area);
     }
 
     buildRoutes(): express.Router {
         const router = express.Router();
         router.get('/', this.getAll.bind(this));
-        router.get('/:value', this.getAreasByName.bind(this));
+        router.get('/:name', this.getAreasByName.bind(this));
 
-        router.get('/name/:value', this.getAreaByName.bind(this));
-        router.delete('/name/:value/delete', this.deleteAreaByName.bind(this));
-        router.put('/name/:value/update', express.json(), this.updateAreaByName.bind(this));
+        router.get('/area', this.getAreaByName.bind(this));
+        router.delete('/area/delete', this.deleteAreaByName.bind(this));
+        router.put('/area/update', express.json(), this.updateAreaByName.bind(this));
 
-        router.get('/id/:value', this.getAreaById.bind(this));
-        router.delete('/id/:value/delete', this.deleteAreaById.bind(this));
-        router.put('/id/:value/update', express.json(), this.updateAreaById.bind(this));
+        router.get('/area/:id', this.getAreaById.bind(this));
+        router.delete('/area/delete/:id', this.deleteAreaById.bind(this));
+        router.put('/area/update/:id', express.json(), this.updateAreaById.bind(this));
 
         router.post('/create/default', this.createDefault.bind(this));
-        router.post('/create', express.json(), this.create.bind(this));
+        router.post('/create', express.json(), this.createArea.bind(this));
 
         return router;
     }
