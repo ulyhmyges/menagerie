@@ -1,0 +1,10 @@
+# node modules to ignore
+node_modules/
+# logs
+logs/
+# git  metadata ignore
+.git
+
+# directory build
+build/
+

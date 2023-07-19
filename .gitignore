@@ -16,6 +16,7 @@ package-lock.json
 
 # ignore ALL files in ANY directory named temp
 temp/
+tmp/
 
 # directory
 .idea/*

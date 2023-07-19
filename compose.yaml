@@ -1,0 +1,36 @@
+services:
+  db:
+    container_name: mongodbBox
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: admin
+        MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - ./tmp/data/db:/data/db
+  
+  node:
+    container_name: nodeBox
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: imenagerie
+    ports:
+      - 8085:4001
+    depends_on:
+      - db
+    env_file:
+      - .env.local
+    volumes:
+      - ./tmp/data/node:/data/node
+
+
+  react:
+    container_name: reactBox
+    image: ireact
+    ports:
+      - 3000:80
+    volumes:
+      - ./tmp/data/react:/data/react
+    
