@@ -1,1 +1,1 @@
-export * from './security.util';
+export * from './security.utils';
