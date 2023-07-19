@@ -2,7 +2,7 @@ import * as express from "express";
 import {Request, Response} from "express";
 import {ExpressController} from "./controller.interface";
 import {StaffService} from "../services";
-import {Animal, AnimalClass, Day, EmployeeType, Gender, Staff, Week, YearFull} from "../models";
+import {Day, EmployeeType, Staff, Week, YearFull} from "../models";
 
 
 export class StaffController implements ExpressController {
@@ -21,42 +21,40 @@ export class StaffController implements ExpressController {
     }
 
     async getStaffsByName(req: Request, res: Response) {
-        const staffs = await this._staffService.findStaffs({name: req.params.value});
+        const staffs = await this._staffService.findStaffs({name: req.params.name});
         res.json(staffs);
     }
 
     async getStaffByName(req: Request, res: Response) {
-        const staff = await this._staffService.findStaff({name: req.params.value})
+        const staff = await this._staffService.findStaff({name: req.params.name})
         res.json(staff);
     }
     async updateStaffByName(req: Request, res: Response) {
         const update : Staff | null = {name: req.body.name, type: req.body.type, availability: req.body.availability}
-        console.log(req.body);
-        const staff = await this._staffService.updateStaff( {name: req.params.value}, update);
+        const staff = await this._staffService.updateStaff( {name: req.params.name}, update);
         const updateStaff = await this._staffService.findStaff({name: req.body.name});
         res.json(updateStaff);
     }
 
     async deleteStaffByName(req: Request, res: Response) {
-        const staff = await this._staffService.deleteStaff({name: req.params.value});
+        const staff = await this._staffService.deleteStaff({name: req.params.name});
         res.json(staff);
     }
 
     async getStaffById(req: Request, res: Response) {
-        const staff = await this._staffService.findStaff({_id: req.params.value})
+        const staff = await this._staffService.findStaff({_id: req.params.id})
         res.json(staff);
     }
 
     async updateStaffById(req: Request, res: Response) {
-        const update : Staff | null = {name: req.body.name}
-        console.log(req.body);
-        const staff = await this._staffService.updateStaff( {_id: req.params.value}, update);
-        const updateStaff = await this._staffService.findStaff({_id: req.params.value});
+        const update : Staff | null = {name: req.body.name, type: req.body.type, availability: req.body.availability}
+        const staff = await this._staffService.updateStaff( {_id: req.params.id}, update);
+        const updateStaff = await this._staffService.findStaff({_id: req.params.id});
         res.json(updateStaff);
     }
 
     async deleteStaffById(req: Request, res: Response) {
-        const staff = await this._staffService.deleteStaff({_id: req.params.value});
+        const staff = await this._staffService.deleteStaff({_id: req.params.id});
         res.json(staff);
     }
 
@@ -89,15 +87,15 @@ export class StaffController implements ExpressController {
     buildRoutes(): express.Router {
         const router = express.Router();
         router.get('/', this.getAll.bind(this));
-        router.get('/:value', this.getStaffsByName.bind(this));
+        router.get('/:name', this.getStaffsByName.bind(this));
 
-        router.get('/name/:value', this.getStaffByName.bind(this));
-        router.delete('/name/:value/delete', this.deleteStaffByName.bind(this));
-        router.put('/name/:value/update', express.json(), this.updateStaffByName.bind(this));
+        router.get('/staff/:name', this.getStaffByName.bind(this));
+        router.delete('/staff/delete/:name', this.deleteStaffByName.bind(this));
+        router.put('/staff/update/:name', express.json(), this.updateStaffByName.bind(this));
 
-        router.get('/id/:value', this.getStaffById.bind(this));
-        router.delete('/id/:value/delete', this.deleteStaffById.bind(this));
-        router.put('/id/:value/update', express.json(), this.updateStaffById.bind(this));
+        router.get('/staff/:id', this.getStaffById.bind(this));
+        router.delete('/staff/delete/:id', this.deleteStaffById.bind(this));
+        router.put('/staff/update/:id', express.json(), this.updateStaffById.bind(this));
 
         router.post('/create', express.json(), this.create.bind(this));
         router.post('/create/default', this.createDefault.bind(this));

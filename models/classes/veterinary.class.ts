@@ -1,5 +1,5 @@
-import {Availability, EmployeeType, Staff, Week} from "../interfaces";
-import {WeekClass, YearFull} from "./availability.class";
+import {YearFull} from "./availability.class";
+import {Availability, EmployeeType, Staff} from "../staff.model";
 
 
 export class Veterinary implements Staff {

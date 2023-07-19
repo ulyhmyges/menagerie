@@ -1,5 +1,6 @@
-import {Animal, CareBook, Treatment, Wellbeing} from "../interfaces";
 import {Veterinary} from "./veterinary.class";
+import {CareBook, Treatment, Wellbeing} from "../carebook.model";
+import {Animal} from "../animal.model";
 
 export class CarebookClass implements CareBook {
     public owner: Animal;

@@ -1,4 +1,4 @@
-import {Availability, Day, Week} from "../interfaces";
+import {Availability, Day, Week} from "../staff.model";
 
 export class WeekClass implements Week {
     public index: number;
@@ -23,8 +23,6 @@ export class WeekClass implements Week {
         this.saturday = day ?? dayoff;
         this.sunday = day ?? dayoff;
     }
-
-
 }
 export class YearOff implements Availability {
     public available: boolean;

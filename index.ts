@@ -6,8 +6,9 @@ config({
 });
 
 import * as express from 'express';
-import mongoose, {connect, Schema} from 'mongoose';
 import {AnimalController, AreaController, ExpressController, StaffController} from "./controller";
+import {connect} from "mongoose";
+import {UserController} from "./controller/user.controller";
 
 
 
@@ -24,25 +25,21 @@ async function launchAPI(): Promise<void> {
     app.use(cors({
         origin: "*"
     }));
+
     const controllers: ExpressController[] = [
         new StaffController(),
         new AreaController(),
         new AnimalController(),
+        new UserController(),
     ]
+
+    // Permet d'enregistrer dans express toutes les routes
+    // pour chaque controller du tableau
     for (let controller of controllers) {
         const router = controller.buildRoutes();
         app.use(controller._path, router);
     }
-    // const controllers: ExpressController[] = [
-    //     new CocktailController(),
-    //     //new UserController()
-    // ];
-    // // Permet d'enregistrer dans express toutes les routes des controllers du
-    // // tableau ci-dessus
-    // for(let controller of controllers) {
-    //     const router = controller.buildRoutes();
-    //     app.use(controller.path, router);
-    // }
+
     app.listen(process.env.PORT, function() {
         console.log(`API Listening on port ${process.env.PORT}...`);
     });

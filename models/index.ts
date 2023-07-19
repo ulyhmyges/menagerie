@@ -5,3 +5,4 @@ export * from "./area.model";
 export * from './carebook.model';
 export * from './picture.model';
 export * from './animal.model';
+export * from './user.model';

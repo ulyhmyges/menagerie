@@ -1,6 +1,6 @@
-import {Animal, Area, AreaType, CareBook, Gender} from "../interfaces";
-import {CarebookClass} from "./carebook.class";
-import {AreaClass} from "./area.class";
+import {Animal, Gender} from "../animal.model";
+import {CareBook} from "../carebook.model";
+import {Area} from "../area.model";
 
 export class AnimalClass implements Animal {
     public name: string;

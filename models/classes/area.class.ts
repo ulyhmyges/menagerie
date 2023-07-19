@@ -1,4 +1,5 @@
-import {Area, AreaType, OpeningHours, Picture} from "../interfaces";
+import {Area, AreaType, OpeningHours} from "../area.model";
+import {Picture} from "../picture.model";
 
 export class AreaClass implements Area {
     public name: string;
