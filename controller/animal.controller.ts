@@ -39,7 +39,8 @@ export class AnimalController implements ExpressController {
             carebook: req.body.carebook
         }
         const animal = await this._animalService.update({name: req.query.name}, update);
-        const updateAnimal = await this._animalService.findOne({name: req.body.name});
+        const name = req.body.name ?? req.query.name
+        const updateAnimal = await this._animalService.findOne({name: name});
         res.json(updateAnimal); // return updated object
     }
 
@@ -96,15 +97,15 @@ export class AnimalController implements ExpressController {
     buildRoutes(): express.Router {
         const router = express.Router();
         router.get('/', this.getAll.bind(this));
-        router.get('/:name', this.getAnimalsByName.bind(this));
+        router.get('/filter/:name', this.getAnimalsByName.bind(this));
 
         router.get('/animal', this.getAnimalByName.bind(this));
-        router.delete('/animal/delete', this.deleteAnimalByName.bind(this));
-        router.put('/animal/update', express.json(), this.updateAnimalByName.bind(this));
+        router.delete('/animal', this.deleteAnimalByName.bind(this));
+        router.put('/animal', express.json(), this.updateAnimalByName.bind(this));
 
-        router.get('/animal/:id', this.getAnimalById.bind(this));
-        router.delete('/animal/delete/:id', this.deleteAnimalById.bind(this));
-        router.put('/animal/update/:id', express.json(), this.updateAnimalById.bind(this));
+        router.get('/:id', this.getAnimalById.bind(this));
+        router.delete('/delete/:id', this.deleteAnimalById.bind(this));
+        router.put('/update/:id', express.json(), this.updateAnimalById.bind(this));
 
         router.post('/create/default', this.createDefault.bind(this));
         router.post('/create', express.json(), this.create.bind(this));

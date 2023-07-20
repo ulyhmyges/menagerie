@@ -73,7 +73,12 @@ export const areaSchema = new Schema<Area>({
     capacity: Schema.Types.Number,
     openingHours: Schema.Types.Mixed,
     disabledAccess: Schema.Types.Boolean,
-    pictures: [pictureSchema]
+    pictures: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Picture',
+            required: false
+        }]
 }, {
     collection: 'areas',
     versionKey: false

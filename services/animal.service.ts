@@ -9,10 +9,12 @@ export class AnimalService {
 
     async create(animal: Animal): Promise<Animal | null> {
         try {
+            const date: Date = animal.birth ? new Date(animal.birth) : new Date();
+
             return await this.animalModel.create({
                 name: animal.name,
                 scientificName: animal.scientificName,
-                birth: animal.birth,
+                birth:  date.toLocaleDateString(),
                 gender: animal.gender,
                 carebook: animal.carebook,
                 area: animal.area
@@ -27,7 +29,7 @@ export class AnimalService {
         try {
             return await this.animalModel.findOneAndUpdate(filter, update);
         } catch (e: unknown) {
-            console.log(e + "error updataOne")
+            console.error();
             return null;
         }
     }
@@ -46,7 +48,7 @@ export class AnimalService {
             console.log(filter)
             return await this.animalModel.findOne(filter);
         } catch (e: unknown) {
-            console.log(e + "error findOne");
+            console.error(e);
             return null;
         }
     }
@@ -55,7 +57,7 @@ export class AnimalService {
         try {
             return await this.animalModel.find(filter).exec();
         } catch (e: unknown) {
-            console.log(e + "error find")
+            console.error(e);
             return null;
         }
     }

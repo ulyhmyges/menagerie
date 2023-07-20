@@ -71,6 +71,11 @@ export class UserController implements ExpressController {
         res.json(updateUser);
     }
 
+    async getUser(req: Request, res: Response) {
+        const user = await this._authService.findById(req.params.id);
+        res.json(user);
+    }
+
     async getAll(req: Request, res: Response) {
         const users = await this._authService.find({});
         res.json(users);
@@ -82,8 +87,9 @@ export class UserController implements ExpressController {
         router.get('/me', checkAuthToken() ,this.me.bind(this));
 
         // à tester
-        router.put('/user/update/:id', express.json(), this.updateUserById.bind(this));
+        router.put('/users/update/:id', express.json(), this.updateUserById.bind(this));
         router.get('/users', this.getAll.bind(this));
+        router.get('/users/:id', this.getUser.bind(this));
         return router;
     }
 }

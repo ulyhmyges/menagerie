@@ -42,7 +42,8 @@ export class AreaController implements ExpressController {
             pictures: req.body.pictures
         }
         const area = await this._areaService.update( {name: req.query.name}, update);
-        const updateArea = await this._areaService.find({name: req.body.name});
+        const name = req.body.name ?? req.query.name
+        const updateArea = await this._areaService.findOne({name: name});
         res.json(updateArea); // return updated object
     }
 
@@ -104,15 +105,15 @@ export class AreaController implements ExpressController {
     buildRoutes(): express.Router {
         const router = express.Router();
         router.get('/', this.getAll.bind(this));
-        router.get('/:name', this.getAreasByName.bind(this));
+        router.get('/filter/:name', this.getAreasByName.bind(this));
 
         router.get('/area', this.getAreaByName.bind(this));
-        router.delete('/area/delete', this.deleteAreaByName.bind(this));
-        router.put('/area/update', express.json(), this.updateAreaByName.bind(this));
+        router.delete('/area', this.deleteAreaByName.bind(this));
+        router.put('/area', express.json(), this.updateAreaByName.bind(this));
 
-        router.get('/area/:id', this.getAreaById.bind(this));
-        router.delete('/area/delete/:id', this.deleteAreaById.bind(this));
-        router.put('/area/update/:id', express.json(), this.updateAreaById.bind(this));
+        router.get('/:id', this.getAreaById.bind(this));
+        router.delete('/delete/:id', this.deleteAreaById.bind(this));
+        router.put('/update/:id', express.json(), this.updateAreaById.bind(this));
 
         router.post('/create/default', this.createDefault.bind(this));
         router.post('/create', express.json(), this.createArea.bind(this));

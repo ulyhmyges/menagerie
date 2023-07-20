@@ -19,14 +19,13 @@ export interface Week {
 }
 
 export interface Availability {
-    available: boolean,
-    weeks?: Week[]
+    weeks: Week[]
 }
 
 export enum EmployeeType {
     zookeeper= "Zookeeper",
     veterinary = "Veterinary",
-    host = "Host",
+    officer = "Welcome officer",
     janitor = "Janitor",
     salesman = "Salesman"
 }

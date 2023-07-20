@@ -1,6 +1,14 @@
 import mongoose, {Model, Schema} from "mongoose";
 import {Animal} from "./animal.model";
-import {Veterinary} from "./classes";
+import {Treatment} from "./treatment.model";
+
+export interface Carebook {
+    _id?: string;
+    owner: Animal;
+    start: string;
+    health: Wellbeing;
+    treatments: Treatment[]
+}
 
 export enum Wellbeing {
     healthy = "Healthy",
@@ -9,33 +17,25 @@ export enum Wellbeing {
     diseased = "Diseased",
     dead = "Dead"
 }
-export interface CareBook {
-    _id?: string;
-    owner: Animal;
-    start: Date;
-    health: Wellbeing;
-    appointment: Date;
-    treatments: Treatment[]
-}
 
-export interface Treatment {
-    _id?: string;
-    animal: Animal;
-    date: Date;
-    place: string;
-    description: string;
-    veterinary: Veterinary | null;
-}
 
-export const careBookSchema = new Schema<CareBook>({
-    owner: Schema.Types.Mixed,
-    start: Schema.Types.Date,
+export const carebookSchema = new Schema<Carebook>({
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'Animal',
+        required: true
+    },
+    start: Schema.Types.String,
     health: Schema.Types.String,
-    appointment: Schema.Types.Date,
-    treatments: Schema.Types.Mixed
+    treatments: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Treatment',
+            required: false
+        }]
 }, {
     collection: 'carebooks',
     versionKey: false
 });
 
-export const CareBookModel: Model<CareBook> = mongoose.model('CareBook', careBookSchema);
+export const CarebookModel: Model<Carebook> = mongoose.model('Carebook', carebookSchema);
