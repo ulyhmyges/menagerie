@@ -21,5 +21,4 @@ export class AreaClass implements Area {
         this.type = type ?? AreaType.woodedSpace;
         this.pictures = pictures ?? [];
     }
-
 }
