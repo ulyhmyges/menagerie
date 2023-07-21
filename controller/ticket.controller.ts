@@ -2,8 +2,9 @@ import {Router, Request, Response} from "express";
 import {TicketService} from "../services/ticket.service";
 import {Ticket} from "../models/interfaces/ticket.interface";
 import express = require("express");
+import { ExpressController } from "./controller.interface";
 
-export class TicketController {
+export class TicketController implements ExpressController{
     readonly _path: string = "/tickets";
     readonly ticketService: TicketService;
 

@@ -9,6 +9,7 @@ import {AreaController, ExpressController, StaffController} from "./controller";
 import {AnimalClass} from "./models/classes/animal.class";
 import {AnimalController} from "./controller/animal.controller";
 import {TicketController} from "./controller/ticket.controller";
+import * as cors from "cors";
 
 async function launchAPI(): Promise<void> {
     await connect(process.env.MONGO_URI as string, {
@@ -18,8 +19,10 @@ async function launchAPI(): Promise<void> {
         },
         authSource: "admin",
     });
-
     const app = express();
+    app.use(cors({
+        origin: "*"
+    }));
     const controllers: ExpressController[] = [
         new StaffController(),
         new AreaController(),
