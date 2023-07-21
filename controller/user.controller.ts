@@ -1,4 +1,5 @@
-import {AuthService} from "../services/auth.service";
+
+import {AuthService} from "../services";
 import {ExpressController} from "./controller.interface";
 import * as express from "express";
 import {Request, Response} from "express";
