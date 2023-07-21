@@ -9,7 +9,7 @@ import * as express from 'express';
 import {AnimalController, AreaController, ExpressController, StaffController} from "./controller";
 import {connect} from "mongoose";
 import {UserController} from "./controller/user.controller";
-
+import {TicketController} from "./controller/ticket.controller";
 
 
 async function launchAPI(): Promise<void> {
@@ -20,7 +20,6 @@ async function launchAPI(): Promise<void> {
         },
         authSource: "admin",
     });
-
     const app = express();
     app.use(cors({
         origin: "*"
@@ -31,6 +30,7 @@ async function launchAPI(): Promise<void> {
         new AreaController(),
         new AnimalController(),
         new UserController(),
+        new TicketController(),
     ]
 
     // Permet d'enregistrer dans express toutes les routes
