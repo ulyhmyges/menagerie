@@ -1,6 +1,7 @@
 import mongoose, {Model, Schema} from "mongoose";
-import {Area, areaSchema} from "./area.model";
-import {CareBook, careBookSchema} from "./carebook.model";
+import {Area} from "./area.model";
+import {Carebook} from "./carebook.model";
+
 
 export interface Animal {
     _id?: string;
@@ -8,8 +9,8 @@ export interface Animal {
     scientificName?: string | null;
     birth: string;
     gender: Gender;
-    carebook: CareBook | null;
-    area: Area | null;
+    carebook: string | Carebook;
+    area: string | Area;
 }
 
 export enum Gender {
@@ -28,7 +29,7 @@ export const animalSchema = new Schema<Animal>({
     },
     carebook: {
         type: Schema.Types.ObjectId,
-        ref: 'CarebookDto',
+        ref: 'Carebook',
         required: true
     }
 }, {

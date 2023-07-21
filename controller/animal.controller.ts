@@ -2,7 +2,7 @@ import {ExpressController} from "./controller.interface";
 import {Request, Response} from "express";
 import * as express from "express";
 import {AnimalService} from "../services";
-import {Animal, Area, CareBook, Gender} from "../models";
+import {Animal, Gender} from "../models";
 import {AnimalClass} from "../models";
 
 export class AnimalController implements ExpressController {
@@ -76,7 +76,7 @@ export class AnimalController implements ExpressController {
 
     async createDefault(req: Request, res: Response): Promise<void> {
 
-        let animal: Animal | null = new AnimalClass("Simba", new Date(1998, 5, 13), Gender.male);
+        let animal: Animal | null = new AnimalClass("Simba", "1997-05-15", Gender.male);
         animal = await this._animalService.create(animal);
         res.json(animal);
     }

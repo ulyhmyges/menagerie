@@ -1,35 +1,34 @@
 import {Veterinary} from "./veterinary.class";
-import {CareBook, Treatment, Wellbeing} from "../carebook.model";
 import {Animal} from "../animal.model";
+import {Carebook, Wellbeing} from "../carebook.model";
+import {Treatment} from "../treatment.model";
 
-export class CarebookClass implements CareBook {
+export class CarebookClass implements Carebook {
     public owner: Animal;
-    public start: Date;
+    public start: string;
     public health: Wellbeing;
-    public appointment: Date;
     public treatments: Treatment[];
 
-    constructor(owner: Animal, start: Date, health: Wellbeing, appointment: Date, treatments: Treatment[]) {
+    constructor(owner: Animal, start: string, health: Wellbeing, treatments: Treatment[]) {
         this.owner = owner;
         this.start = start;
         this.health = health;
-        this.appointment = appointment;
         this.treatments = treatments;
     }
 }
 
 export class TreatmentClass implements Treatment {
     public animal: Animal;
-    public date: Date;
+    public date: string;
     public description: string;
     public place: string;
-    public veterinary: Veterinary | null;
+    public veterinary: string | Veterinary;
 
-    constructor(animal: Animal, date: Date, place: string, description: string) {
+    constructor(animal: Animal, date: string, place: string, description: string) {
         this.animal = animal;
         this.date = date;
         this.place = place;
         this.description = description;
-        this.veterinary = null;
+        this.veterinary = "None";
     }
 }

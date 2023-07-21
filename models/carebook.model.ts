@@ -2,6 +2,7 @@ import mongoose, {Model, Schema} from "mongoose";
 import {Animal} from "./animal.model";
 import {Treatment} from "./treatment.model";
 
+
 export interface Carebook {
     _id?: string;
     owner: Animal;
