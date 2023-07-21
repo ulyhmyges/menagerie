@@ -1,5 +1,5 @@
 
-import {AuthService} from "../services";
+
 import {ExpressController} from "./controller.interface";
 import * as express from "express";
 import {Request, Response} from "express";
@@ -7,6 +7,7 @@ import {User} from "../models";
 import {ExpressUtils} from "../utils/express.utils";
 import {SecurityUtils} from "../utils";
 import {checkAuthToken} from "../middleware";
+import {AuthService} from "../services";
 
 export class UserController implements ExpressController {
     readonly _path: string;
