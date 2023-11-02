@@ -1,11 +1,10 @@
-import {AuthService} from "../services/auth.service";
-import {ExpressController} from "./controller.interface";
+import {AuthService} from "../services";
 import * as express from "express";
 import {Request, Response} from "express";
 import {User} from "../models";
 import {ExpressUtils} from "../utils/express.utils";
-import {SecurityUtils} from "../utils";
 import {checkAuthToken} from "../middleware";
+import {ExpressController} from "./controller.interface";
 
 export class UserController implements ExpressController {
     readonly _path: string;
@@ -67,6 +66,10 @@ export class UserController implements ExpressController {
             type: req.body.type
         }
         const user = await this._authService.update({_id: req.params.id}, update);
+        if (!user){
+            console.log("error update (updateUserById)")
+            return ExpressUtils.internalServerError(res)
+        }
         const updateUser = await this._authService.findById(req.params.id);
         res.json(updateUser);
     }
@@ -84,10 +87,10 @@ export class UserController implements ExpressController {
         const router = express.Router();
         router.post('/subscribe', express.json(), this.subscribe.bind(this));
         router.post('/login', express.json(), this.login.bind(this));
-        router.get('/me', checkAuthToken() ,this.me.bind(this));
+        router.get('/me', checkAuthToken(), this.me.bind(this));
 
         // à tester
-        router.put('/users/update/:id', express.json(), this.updateUserById.bind(this));
+        router.put('/users/:id', express.json(), this.updateUserById.bind(this));
         router.get('/users', this.getAll.bind(this));
         router.get('/users/:id', this.getUser.bind(this));
         return router;

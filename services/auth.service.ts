@@ -33,6 +33,7 @@ export class AuthService {
                 type: user.type
             })
         } catch (e: unknown) {
+            console.error("error message", e)
             return null;
         }
     }
@@ -79,7 +80,4 @@ export class AuthService {
         }
         return await this.sessionModel.findOne({_id: token}).populate('user').exec();
     }
-
-
-
 }
